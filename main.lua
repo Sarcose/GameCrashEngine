@@ -1,17 +1,22 @@
-world = require("core.game_world"):new()
+_G.tiny = require 'lib.tiny'
 
+local systems, entities = {},{}
+local world
+local font = love.graphics.newFont()
 function love.load()
-    
+    systems.logic = require 'systems.logic.logicSystems'
+    systems.render = require 'systems.render.renderSystems'
+    entities = require 'entities.testingEntities'
+
+    world = tiny.world(systems.logic.talkingSystem, systems.render.spriteSystem,systems.render.shapeSystem,systems.render.dialogueSystem)
+
 end
 
 function love.update(dt)
-  world:update(dt)
+    world:update(dt)
 end
+
 
 function love.draw()
-  world:draw()  -- Process render systems
-end
-
-function love.keypressed(key)
-  if key == "escape" then love.event.quit() end
+    world:update(0)
 end

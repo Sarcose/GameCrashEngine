@@ -1,5 +1,5 @@
 function love.conf(t)
-	t.identity	=	"gcengine"
+	t.identity	=	"write"
 	t.window.resizable = true
 	t.window.fullscreen = false
 	t.console = true
