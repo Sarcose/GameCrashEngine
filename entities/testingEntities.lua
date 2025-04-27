@@ -1,8 +1,8 @@
 local entities = {
     [1] = {
         name = "Joe",
-        pos = {x=0,y=0},
-        dims = {w=10,h=10},
+        pos = {x=100,y=0},
+        dims = {w=30,h=10},
         color = {1,0,1},
         phrase = "I'm a control!",
         mass = 150,
@@ -12,8 +12,8 @@ local entities = {
     },
     [2] = {
         name = "Shape",
-        pos = {x=30,y=30},
-        dims = {w=10,h=10},
+        pos = {x=100,y=50},
+        dims = {w=10,h=30},
         color = {0,0,1},
         shape = "rectangle",
         phrase = "I'm a shape person!!",
@@ -24,8 +24,8 @@ local entities = {
     },
     [3] = {
         name = "Sprite",
-        pos = {x=50,y=60},
-        dims = {w=10,h=10},
+        pos = {x=100,y=100},
+        dims = {w=30,h=30},
         color = {0,0,1},
         phrase = "I'm a sprite person!!",
         sprite = love.graphics.newImage('assets/player.png'),
@@ -36,7 +36,7 @@ local entities = {
     },
     [4] = {
         name = "Both",
-        pos = {x=100,y=60},
+        pos = {x=100,y=160},
         dims = {w=10,h=10},
         color = {0,1,0},
         shape = "rectangle",

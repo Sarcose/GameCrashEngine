@@ -3,6 +3,7 @@ local s = {}
 s.talkingSystem = tiny.processingSystem()
 s.talkingSystem.filter = tiny.requireAll("name", "mass", "phrase")
 function s.talkingSystem:process(e, dt)
+    e.time = e.time or 0
     e.time = e.time - dt
     if e.time < 0 then 
         e.time = e.timer
