@@ -47,8 +47,15 @@ require ('core.debugcandy'):export()
 --also local var = gcore.var | var.rsign()
 
 _G._CANDEBUG = false
+_G._ALLOBJECTS = {}
 
-local g = {}
+
+local g = {
+	config = {
+		deepcopylimit = 3,
+	}
+
+}
 --[[Debug     #DEBUG]]
 g.debug = {dims = {x=0,y=0,r=0, sx=1,sy=1}, container = {strings = {}}}
 function g.debug.toggle()
@@ -1168,14 +1175,16 @@ end
 g.var.shallowcopy = g.table.shallowcopy --alias
 function g.table.deepcopy(orig, deep)
     deep = deep or 0
-    if deep > _G._deepcopylimit then return {} end
-    if type(orig) == 'table' and _G._allobjects[orig] then
-        return _G._allobjects[orig] -- Return the reference to the shared object
+    if deep > g.config.deepcopylimit then return {} end
+    --[[	--what exactly was I doing here?
+	if type(orig) == 'table' and _G._ALLOBJECTS[orig] then
+        return _G._ALLOBJECTS[orig] -- Return the reference to the shared object
     end
+	--]]
     local copy
     if type(orig) == 'table' then
         copy = {}
-        _G._allobjects[orig] = copy
+        _G._ALLOBJECTS[orig] = copy
         for key, value in pairs(orig) do
             if type(value) == "table" then
                 copy[key] = g.var.deepcopy(value, deep + 1)
@@ -1216,7 +1225,7 @@ function g.table.__shallowcopy(self)
 	return g.table.shallowcopy(self)
 end
 function g.table.__deepcopy(self)
-	return g.table.__deepcopy(self)
+	return g.table.deepcopy(self)
 end
 
 

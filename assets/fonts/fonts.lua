@@ -105,17 +105,18 @@ function Font.unset()   --quickly return font to previous, like a push/pop scena
     lg.setFont(Font.former)
 end
 
----@type fun(f?: string)
----@param f? string set font to a valid built font, or leave blank for a random existing font within Font
-function Font:__call(f)
-    if not f or (type(f)=="string" and #f <= 2) then
-        Font.former = lg.getFont()
-        local font = Font.fonts.__indices[math.random(1,#Font.fonts.__indices)](f)
-        lg.setFont(font)
-        return
+setmetatable(Font,{
+    __call = function(f)
+        if not f or (type(f)=="string" and #f <= 2) then
+            Font.former = lg.getFont()
+            local font = Font.fonts.__indices[math.random(1,#Font.fonts.__indices)](f)
+            lg.setFont(font)
+            return
+        end
+        Font.set(f)
     end
-    Font.set(f)
-end
+})
+
 
 function Font:__tostring()
     return "assetTable"
