@@ -1,5 +1,4 @@
 local classic = require 'lib.classic'
-__test:start('testingEntities2')
 local entity = classic:extend()
 local entityDefaults = {
     name = "unnamed",
@@ -18,7 +17,6 @@ function entity:new(prop)
     if type(prop) ~= "table" then prop = entityDefaults:__copy() end
     local obj = entityDefaults:__copy()
     gcore.table.merge(obj, prop, true)
-    _c_debug(obj)
     return obj
 end
 setmetatable(entity, {
@@ -28,16 +26,10 @@ setmetatable(entity, {
 })
 
 local e = {
-    humie = entity{name="humie"},
-    mushkid = entity{name="mushkid"},
-    rabball = entity{name="rabball"},
-    speye = entity{name="speye"},
+    humie = entity{name="humie",texture = {sheet = lg.newImage("assets/humie.png")},pos=randomPos()},
+    mushkid = entity{name="mushkid",texture = {sheet = lg.newImage("assets/mushkid.png")},pos=randomPos()},
+    rabball = entity{name="rabball",texture = {sheet = lg.newImage("assets/rabball.png")},pos=randomPos()},
+    speye = entity{name="speye",texture = {sheet = lg.newImage("assets/speye.png")},pos=randomPos()},
 }
 
-
-local entities = {}
-
-__test:stop('testingEntities2')
-print(e.humie.name)
-_c_debug(e)
-return entities
+return e

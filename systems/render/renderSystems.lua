@@ -5,7 +5,7 @@ s.spriteSystem.filter = tiny.requireAll("texture","pos")
 s.spriteSystem.isDrawSystem = true
 function s.spriteSystem:process(e)
     love.graphics.setColor(1,1,1,1)
-    love.graphics.draw(e.sprite,e.pos.x,e.pos.y)
+    love.graphics.draw(e.texture.sheet,e.pos.x,e.pos.y)
 end
 
 s.shapeSystem = tiny.processingSystem()

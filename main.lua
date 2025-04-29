@@ -15,8 +15,8 @@ function love.load()
     entities = require 'entities.testingEntities2'
 
     world = tiny.world(systems.logic.talkingSystem, systems.render.spriteSystem,systems.render.shapeSystem,systems.render.dialogueSystem)
-    for _,e in ipairs(entities) do
-        --tiny.addEntity(world,e)
+    for _,e in pairs(entities) do
+        tiny.addEntity(world,e)
     end
     --tester:run('fonts')
 end
