@@ -25,6 +25,7 @@ function Object:extend()
   end
   cls.__index = cls
   cls.super = self
+  cls.__type = cls.__type or "Object"
   setmetatable(cls, self)
   return cls
 end
@@ -54,7 +55,7 @@ end
 
 
 function Object:__tostring()
-  return "Object"
+  return self.__type.."  "..string.format("%p", self)
 end
 
 
