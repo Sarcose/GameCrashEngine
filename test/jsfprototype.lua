@@ -1,4 +1,5 @@
-local draws = require 'test.jsfproto.draws' 
+--local draws = require 'test.jsfproto.draws' 
+local protodraws = require 'test.jsfproto.protodraws'
 local ents = require 'test.jsfproto.ents'
 local map = require 'test.jsfproto.map'
 local world = require 'test.jsfproto.world'
@@ -14,7 +15,7 @@ end
 
 function jsf:update(dt, t)
     if t == 'drawonly' then
-        draws:update(dt)
+        --protodraws:update(dt)
     else
         world:update(dt)
     end
@@ -23,7 +24,7 @@ end
 
 function jsf:draw(t)
     if t == 'drawonly' then
-        draws:drawAllShapes()
+        protodraws:drawAllShapes()
     else
         world:draw()
     end
