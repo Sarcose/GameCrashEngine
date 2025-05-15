@@ -55,7 +55,7 @@ end
 
 
 function Object:__tostring()
-  return self.__type.."  "..string.format("%p", self)
+  return type_print(self,false,true)
 end
 
 

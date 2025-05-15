@@ -683,8 +683,9 @@ end
 ---| '"Entity"'		  # Basic class for Terrain, Item, Actor
 ---| '"Template"'	  # Basic class for Terrain, Item, Actor
 ---| '"MemContainer"' # Containerized instance for instantiating objects. All loaded scopes should start here
+---| '"Mesh'
 --- #REGISTERLIST
-local gcoreTypeList = {"Global","System","GameState","Overlay","Controller","Space","Entity","Template","MemContainer"}
+local gcoreTypeList = {"Global","System","GameState","Overlay","Controller","Space","Entity","Template","MemContainer","Mesh"}
 
 --I THINK this is it. I MIGHT also use a new alias for gcoreSubType -- the purpose being,
 								--the types above are prototypes, and i don't want the subtypes to be in the same alias.
@@ -1410,7 +1411,6 @@ function _G.type(v,comp)	--#TYPE
 end
 
 ---@type fun(obj: table, t?: string, name?: string)
----Do not use? I think I need to use gcore.container.assignType instead
 function _G.addType(obj,t,name)
 	if _G._oldType(obj) ~= "table" then
 		_c_warn("addType used on a non-table!")
@@ -1419,9 +1419,9 @@ function _G.addType(obj,t,name)
 	obj.__primitive = "table"
 	obj.__address = tostring(obj)
 	obj.__name = name or "unnamed"
-
 end
 
+g.addType = addType
 --- @param v any
 --- @param expand? boolean displays extra __type info, false by default
 --- print the old type or the attributes of the __type table
