@@ -1,3 +1,4 @@
+---@diagnostic disable: redundant-parameter
 -- Customization options
 
 --[[
@@ -309,7 +310,7 @@ local function inspect(i, refs)				--#INSPECT
         local deep = 1
         for k, v in pairs(i) do
             if type(v) == "table" and refs ~= "flat" then
-                local d = getDeepest(v, refs)
+                local d = deep-- getDeepest(v, refs)
                 deep = math.max(deep, d)
             end
             if not tonumber(k) then n = n + 1 end
@@ -559,6 +560,22 @@ local function debugLayers(args, visited)		--#LAYERS --#DEBUGLAYERS
     output = output .. formerColor .. tab .. "}\r\n"
     return output
 end
+local function key(s)	return "["..s.."] = " end
+local function locals()	--source: https://stackoverflow.com/questions/2834579/print-all-local-variables-accessible-to-the-current-scope-in-lua
+  local variables = {}
+  local idx = 1
+  while true do
+    local ln, lv = debug.getlocal(2, idx)
+    if ln ~= nil then
+      variables[ln] = lv
+    else
+      break
+    end
+    idx = 1 + idx
+  end
+  return variables
+end
+
 
 --[[ Private Methods ]]
 --used for internal debugging only.
@@ -626,6 +643,60 @@ end
 
 
 ----[[  Library Features   ]]
+function ccandy.printscope(skip_global) --g = "skip global scope" or not. Always prints local scope & upvalues. This function prints the whole accessible scope from where it was called.
+	--useful for determining what is exposed to the current scope and managing your scoping
+	--intentionally flat. Should be no need for diving.
+	local p = getCallLine("SCOPE",10)
+	local tab = "\r\n              "
+	local branch = "    ---"
+	local function header(s) return "=="..s.."==" end
+	if not skip_global then
+		p = p .. tab..header("Global Scope")
+		for k,v in pairs(_G) do
+			if k ~= "_G" and k ~= "love" then
+				p = p ..tab..branch..key(k)..inspect(v)
+			end
+		end
+		p = p .. tab .. branch .. key("love") .. type(love)
+		p = p .. tab .. branch .. key("_G") .. type(_G)
+	end
+	p = p .. tab .. header("Upvalue Scope")
+	local upvalues = {}
+	local idx = 1
+	local func_info = debug.getinfo(2, "f")
+	if func_info and func_info.func then
+		local func = func_info.func
+		while true do
+			local ln, lv = debug.getupvalue(func, idx)
+			if ln ~= nil then
+				upvalues[ln] = lv
+			else
+				break
+			end
+			idx = 1 + idx
+		end
+	end
+	for k,v in pairs(upvalues) do
+		p = p..tab..branch..key(k)..inspect(v)
+	end
+	p = p .. tab .. header("Local Scope")
+	local locals = {}
+	idx = 1
+	while true do
+		local ln, lv = debug.getlocal(2, idx)
+		if ln ~= nil then
+		locals[ln] = lv
+		else
+		break
+		end
+		idx = 1 + idx
+	end
+	
+	for k,v in pairs(locals) do
+		p = p..tab..branch..key(k)..inspect(v)
+	end
+	ccandy._display("debug",p)
+end
 
 function ccandy.debugL(...)	--t,title,depth or args = {table table, int depth, string title} #DEBUGL
 	if ccandy.controls.Debug_Level < 2 or not ccandy.switches.debug then return end

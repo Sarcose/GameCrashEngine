@@ -57,6 +57,11 @@ _c_debugL = function(...) end
 --- calls _c_debug() with a name attached. In the future all debugs should be rolled into one.
 _c_debugN = function(_, name, level, parseStart) end
 
+---@type fun(skip_global: boolean)
+---@param skip_global? boolean if true, will skip the global namespace
+--- prints the entire available namespace (globals, upvalues, locals) to the console for simplistic inspection. Does not capture variables pruned at runtime i.e. if an upvalue isn't used in the function that calls _c_printscope, then it won't be reported by this function.
+_c_printscope = function(skip_global) end
+
 ---@type fun(_: table, level?: integer, parseStart?: integer)
 ---@param _ any
 ---@param level? CDebugExtraType

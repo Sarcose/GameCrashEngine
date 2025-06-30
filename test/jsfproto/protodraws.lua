@@ -129,13 +129,11 @@ local function popColor(color)  --pop last color. if color is *passed*, then it 
 end
 
 
-local color = {
+local namedColor = {
     blue = {0, 0, 1},
     red = {1, 0, 0},
     green = {0, 1, 0},
     white = {1, 1, 1},
-    black = {0, 0, 0},
-
     cyan = {0, 1, 1},
     magenta = {1, 0, 1},
     yellow = {1, 1, 0},
@@ -146,9 +144,10 @@ local color = {
     teal = {0, 0.5, 0.5},
     gray = {0.5, 0.5, 0.5},
     dark_red = {0.5, 0, 0},
-    transparent = {0,0,0,0},
 }
-for _,v in pairs(color) do
+local color = {}
+for k,v in pairs(namedColor) do
+    color[k] = v
     color[#color+1] = v
 end
 setmetatable(color, {
@@ -160,8 +159,11 @@ local determinedColors = {i = 1}
 
 for i=1,100 do
     determinedColors[i] = color()
-
 end
+for k,v in pairs(namedColor) do
+    determinedColors[k] = v
+end
+_c_debug(determinedColors)
 setmetatable(determinedColors, {
     __call = function(self)
         local c = self[self.i]
@@ -172,11 +174,11 @@ setmetatable(determinedColors, {
 })
 function determinedColors:reset()   --use this at the end of protodrawexamples() to keep the list the same every update
     self.i = 1
-
 end
+determinedColors.transparent = {0,0,0,0}
 
-local white = color.white
-local black = color.black
+local white = {1,1,1}
+local black = {0,0,0}
 local _segments = 1
 local _defaultSegments = 1
 
@@ -335,6 +337,6 @@ local pd = {
 
 local shapeExamples = require 'test.protodrawexamples'
 function pd:drawAllShapes()
-    shapeExamples(messyDrawFunctions, determinedColors, 0,30)
+    shapeExamples(messyDrawFunctions, determinedColors, 0,30, "tri")
 end
 return pd

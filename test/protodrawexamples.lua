@@ -10,85 +10,101 @@ in the future we will probably make each shape a polygon mesh and each outline a
 
 --dynamic segmentation:
 
+--[[
+        mode: for drawing a specific segment
+            rect
+            ellipse
+            tri
+            spiral
+            fractal
+            blob
+]]
 
 
-return function(mdf,color,x,y)
+return function(mdf,color,x,y, mode)
     local _r = 0    --no need for rotations imo
+    mode = mode or "all"
     x,y = x or 0, y or 30
-    local t = love.timer.getTime()
     local function next(mod)
         x = x + mod
         return x
     end
-    do  --rectangles
-        local w= 14
-            --equilateral
-        mdf:rectangle(next(w+5),y,w,w,_r,_r,color(),color())
-            --tall
-        mdf:rectangle(next(w+5),y,w,w*2,_r,_r,color(),color())
-            --wireframe
-        mdf:rectangle(next(w+5),y,w,w*2,_r,_r,color.transparent,color())
+    do
+        local lineWidth = 2
+        --rectangles
+        local w= 30
+        --equilateral
+        mdf:rectangle(next(w+10),y,w,w,_r,_r,color(),color(), lineWidth)
+        --tall
+        mdf:rectangle(next(w+10),y,w,w*2,_r,_r,color(),color(), lineWidth)
+        --wireframe
+        mdf:rectangle(next(w+10),y,w,w*2,_r,_r,color.transparent,color(), lineWidth)
+        --rounded rectangle
+        mdf._segments = 30
+        mdf:rectangle(next(w+10),y,w,w*2,_r,_r,color.transparent,color(), lineWidth)
+        --rounded rectangle
+        mdf._segments = 30
+        mdf:rectangle(next(w+10),y,w*2,w,_r,_r,color.transparent,color(), lineWidth)
     end
-        --rounded rectangle
-        local w= 14
-        mdf._segments = 30
-        mdf:rectangle(next(w+5),y,w,w*2,_r,_r,color.transparent,color())
-        --rounded rectangle
-        mdf._segments = 30
-        mdf:rectangle(next(w+5),y,w*2,w,_r,_r,color.transparent,color())
-    
-    do  --ellipses
-        x,y = 0,60
-        local r = 14
+    do
+          --ellipses
+        x,y = 0, 150
+        local r = 38
         --circle
-        mdf:ellipse(next(r+5),y,r,nil,color(),color())
+        mdf:ellipse(next(r+10),y,r,nil,color(),color())
 
         --bounce circle
-        mdf:ellipse(next(r+5),y,r,nil,color.purple,color.white)
+        mdf._segments = 10
+        mdf:ellipse(next(r+10),y,r,nil,color.purple,color.white)
         
         --very jaggy circle?
-        mdf._segments = 2
-        mdf:ellipse(next(r+5),y,r,nil,color.orange,color.white)
+        mdf._segments = 6
+        mdf:ellipse(next(r+10),y,r,nil,color.transparent,color())
 
         --very smooth circle?
-        mdf._segments = 10
-        mdf:ellipse(next(r+5),y,r,nil,color(),color())
+        mdf._segments = 20
+        mdf:ellipse(next(r+10),y,r,nil,color(),color())
 
         --VERY smooth circle?
-        mdf._segments = 30
-        mdf:ellipse(next(r+5),y,r,nil,color(),color())
+        mdf._segments = 60
+        mdf:ellipse(next(r+10),y,r,nil,color(),color())
 
         --very jaggy horizontal ellipse?
-        mdf._segments = 2
-        mdf:ellipse(next(r+5),y,r/2,r,color.orange,color.white)
+        mdf._segments = 6
+        mdf:ellipse(next(r+20),y,r/2,r,color.transparent,color())
         --very jaggy vertical ellipse?
-        mdf._segments = 2
-        mdf:ellipse(next(r+5),y,r,r/2,color.orange,color.white)
+        mdf._segments = 6
+        mdf:ellipse(next(r+20),y,r,r/2,color.transparent,color())
 
         --very smooth horizontal ellipse?
-        mdf._segments = 15
-        mdf:ellipse(next(r+5),y,r/2,r,color.orange,color.white)
+        mdf._segments = math.random(3,15)
+        mdf:ellipse(next(r+20),y,r/2,r,color.transparent,color())
     
         --very smooth vertical ellipse?
         mdf._segments = 15
-        mdf:ellipse(next(r+5),y,r,r/2,color.orange,color.white)
+        mdf:ellipse(next(r+20),y,r,r/2,color.transparent,color())
     end
-    do  --triangles
+    if mode == "tri" or mode == "all" then
+        --triangles
         x,y = 0,200
         -- Equilateral: cx,cy,size,rotation
-        mdf:triangle("equilateral",color(),color(),1, next(60), y, 40, math.rad(30))
+
+
+        mdf:triangle("equilateral",{1,0,0},{1,1,1},1, next(60), y, 40, 0)--math.rad(30))
 
         -- Isosceles: cx,cy,base,height,rotation
-        mdf:triangle("isosceles",color(),color(),1, next(60),y, 40, 70, math.rad(15))
+        mdf:triangle("isosceles",{0,1,0},{1,1,1},1, next(60),y, 40, 70, 0)--math.rad(15))
 
         -- Right: x,y,base,height,orientation
-        mdf:triangle("right",color(),color(),1, next(60), 60, 100, 120, "tl")
+        mdf:triangle("right",{0,0,1},{1,1,1},1, next(60), 60, 100, 120, "tl")
 
         -- Arbitrary points; can't be defined with x/y
-        mdf:triangle(nil,color(),color(),1, 500, 100, 550, 200, 480, 180)
+        --okay but honestly, do we even want that? I don't think we do.
+        --mdf:triangle(nil,{0,1,1},{1,1,1},1, 500, 100, 550, 200, 480, 180)
     end
 
-    do --spiral
+    if mode == "spiral" or mode == "all" then
+        --spiral
         x,y = 0, 300
         local points = 3
         local mod = 3
@@ -111,7 +127,8 @@ return function(mdf,color,x,y)
         end
     end
 
-    do --fractals
+    if mode == "fractal" or mode == "all" then
+         --fractals
         lg.setColor(1,1,1)  --basic color at first
         x,y = 0, 600
         local t = 0 --static time at first
@@ -132,7 +149,8 @@ return function(mdf,color,x,y)
 
     end
 
-    do --blobs
+    if mode == "blob" or mode == "all" then
+        --blobs
         lg.setColor(1,1,1)  --basic color at first
         --static test
         x,y = 0, 800
