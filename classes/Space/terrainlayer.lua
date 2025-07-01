@@ -1,4 +1,5 @@
 -- TerrainLayer.lua
+local Class = require("classic")
 
 local TerrainLayer = Class:extend()
 

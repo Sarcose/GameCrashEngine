@@ -3,31 +3,26 @@
 -- once all the gameplay is figured out, let's replace the draw function
 
 _G.Controls = require 'test.retro_jsf.controller'
-_G.Slick = require 'lib.slick.slick'
+_G.slick = require 'lib.slick.slick'
 
+local w, h = 800, 600
+local world = slick.newWorld(w,h)
+local player ={type = "player"}
+local level = {type = "level"}
 
---[[
-    So the structure of the game space is going to be:
-        Worlds -> Levels -> "Boards" or Layers and we're using the terrainlayer data struct?
-        So before we port in the generated and worked on Obsidian terrainlayer, we need to sort of visualize it here.
-
-        We need a world, then it needs to be a world of worlds, then a world fof worlds with worlds. Then a universe of worlds of worlds of worlds, lol.
-        
-        Then we need an object type. We first start it out as a simplistic object.
-
-        We need a terrain type. We can move from a table of largest squares to a table of polygons;
-        with the recent developments in slick we have navmeshes too. Eventually we'll be able to use those.
-
-
-
-
-]]
-
-local ctx = {   --i like this structure tbh, passing a context throughout the formula...
-    object = require 'test.retro_jsf.object',   -- I need to formalize what formulae are even exposed to.
-    controller = require 'test.retro_jsf.controller',
-    maps = require 'test.retro_jsf.maps'
-}
+world:add(player, w / 2, h / 2, slick.newRectangleShape(0, 0, 32, 32))
+world:add(level, 0, 0, slick.newShapeGroup(
+    -- Boxes surrounding the map
+    slick.newRectangleShape(0, 0, w, 8), -- top
+    slick.newRectangleShape(0, 0, 8, h), -- left
+    slick.newRectangleShape(w - 8, 0, 8, h), -- right
+    slick.newRectangleShape(0, h - 8, w, 8), -- bottom
+    -- Triangles in corners
+    slick.newPolygonShape({ 8, h - h / 8, w / 4, h - 8, 8, h - 8 }),
+    slick.newPolygonShape({ w - w / 4, h, w - 8, h / 2, w - 8, h }),
+    -- Convex shape
+    slick.newPolygonMeshShape({ w / 2 + w / 4, h / 4, w / 2 + w / 4 + w / 8, h / 4 + h / 8, w / 2 + w / 4, h / 4 + h / 4, w / 2 + w / 4 + w / 16, h / 4 + h / 8 })
+))
 
 
 local jsf = {}
@@ -42,7 +37,7 @@ function jsf:update(dt)
 end
 
 function jsf:draw()
-
+    slick.drawWorld(world)
 
 end
 
