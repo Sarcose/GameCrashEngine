@@ -28,7 +28,7 @@ function Controls.new()
     for _, k in ipairs(extraKeys) do
         table.insert(keyMap, k)
     end
-    _c_debug(keyMap)
+    --_c_debug(keyMap)
     local inputBindings = {}
     for _, key in ipairs(keyMap) do
         inputBindings[key] = { "key:"..key }

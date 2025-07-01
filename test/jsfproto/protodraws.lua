@@ -118,7 +118,7 @@ local function pushColor(color) --push color onto the stack
     table.insert(colorStack,{Or,Og,Ob,Oa})
     lg.setColor(color)
 end
-_c_todo{"05/14/2025","Working on a quick n dirty protodraws system with pushcolor and popcolor for easy auto-coloring"}
+--_c_todo{"05/14/2025","Working on a quick n dirty protodraws system with pushcolor and popcolor for easy auto-coloring"}
 local function popColor(color)  --pop last color. if color is *passed*, then it replaces current color with new color
     local c = colorStack[#colorStack] or {1,1,1,1}
     lg.setColor(c[1],c[2],c[3],c[4])
@@ -163,7 +163,7 @@ end
 for k,v in pairs(namedColor) do
     determinedColors[k] = v
 end
-_c_debug(determinedColors)
+--_c_debug(determinedColors)
 setmetatable(determinedColors, {
     __call = function(self)
         local c = self[self.i]

@@ -8,7 +8,7 @@ function s:add(...)
         gcore.container.assignType(obj,"Mesh",obj.name)
         self[obj.name] = obj
         table.insert(self,obj)
-        _c_debug(obj)
+        --_c_debug(obj)
     end
 end
 
