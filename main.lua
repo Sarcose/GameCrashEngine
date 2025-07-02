@@ -1,5 +1,4 @@
 local formula = require 'formula'
-_G.Controls = require 'ui.controls'()
 
 
 function love.load()

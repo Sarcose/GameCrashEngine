@@ -22,7 +22,7 @@ local designcontrols = {
 function designcontrols:update(dt)
     self.zoom, self.mb1, self.mb2, self.mb1drag, self.mb2drag = false, false, false, false, false
     self.movecamera.move, self.movecamera.x, self.movecamera.y = false, 0,0
-    self.menumove
+    self.menumove = {}
     if Controls:pressed("c") then
         self.cameramode = boolswitch(self.cameramode)
     end

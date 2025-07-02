@@ -19,7 +19,7 @@ function designer:configure(t)
         self.ctx[k] = v
     end
     assert(self.ctx.world,"designer configured without world!")
-    self.internal.camera:attach(self.ctx.world)
+    --self.internal.camera:attach(self.ctx.world)
 end
 
 
@@ -49,9 +49,7 @@ function designer:processControls(dt)
     end
     if self.controls.menumove.LR then
 
-    end
-
-11 
+    end 
 end
 function designer:update(dt)
     if not self.active then return end

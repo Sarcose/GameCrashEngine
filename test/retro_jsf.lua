@@ -2,7 +2,7 @@
 -- Since jsf was originally all programmer art, let's make a game solely using slick and have slick's debug drawing handle the graphics
 -- once all the gameplay is figured out, let's replace the draw function
 
-_G.Controls = require 'test.retro_jsf.controller'
+--_G.Controls = require 'test.retro_jsf.controller'
 _G.slick = require 'lib.slick.slick'
 local designer = require 'design.designer'
 
