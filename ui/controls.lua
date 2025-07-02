@@ -14,6 +14,7 @@ function Controls.new()
         if #k > 0 and pcall(love.keyboard.isDown, k) then
             table.insert(keyMap, k)
         end
+
     end
 
     -- Also manually add common keys not caught above
@@ -23,31 +24,32 @@ function Controls.new()
         "lshift", "rshift", "lctrl", "rctrl", "lalt", "ralt",
         "f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10", "f11", "f12"
     }
-    local mouse = {
+
+    for _, k in ipairs(extraKeys) do
+        table.insert(keyMap, k)
+    end
+    --_c_debug(keyMap)
+    local inputBindings = {}
+    for _, key in ipairs(keyMap) do
+        inputBindings[key] = { "key:"..key }
+    end
+
+    local mouse = {        
             mb_left = {'mouse:1'},
             mb_middle = {'mouse:3'},
             mb_right = {'mouse:2'},
             mb_backward = {'mouse:4'},
             mb_forward = {'mouse:5'},
     }
-
-    for _, k in ipairs(extraKeys) do
-        table.insert(keyMap, k)
-    end
-    local inputBindings = {}
-    for _, key in ipairs(keyMap) do
-        inputBindings[key] = { "key:"..key }
-    end
-    for k, v in pairs(mouse) do
-        table.insert(keyMap,k,v)
-    end
+    for k,v in pairs(mouse) do keyMap[k] = v end
 
     local self = setmetatable({}, Controls)
     self.input = baton.new{
         controls = inputBindings,
-        move = {'left', 'right', 'up', 'down'},
-        wheel = {x=0,y=0}
+        pairs = {},
     }
+    testing = keyMap
+    self.wheel = {x=0,y=0}
     return self
 end
 

@@ -4,6 +4,7 @@
 
 _G.Controls = require 'test.retro_jsf.controller'
 _G.slick = require 'lib.slick.slick'
+local designer = require 'design.designer'
 
 local w, h = 800, 600
 local world = slick.newWorld(w,h)
@@ -37,6 +38,7 @@ local jsf = {}
 
 
 function jsf:load()
+    designer:configure{world = world}
 
 end
 
