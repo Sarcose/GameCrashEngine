@@ -1,3 +1,5 @@
+
+
 local designer = {
     active = false,
     ctx = {
@@ -7,7 +9,6 @@ local designer = {
     internal = {
         selected = nil,
         camera = require ('design.camera')(),
-        UX = require 'design.ux',
         mouse = require 'design.mouse'
     },
     controls = require 'design.controls',
@@ -50,7 +51,7 @@ function designer:processControls(dt)
 
     end
 
-
+11 
 end
 function designer:update(dt)
     if not self.active then return end

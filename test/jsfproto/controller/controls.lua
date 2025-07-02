@@ -39,7 +39,7 @@ function Controls.new()
         inputBindings[key] = { "key:"..key }
     end
     for k, v in pairs(mouse) do
-        table.insert(keyMap,k,v)
+        keyMap[k] = v
     end
 
     local self = setmetatable({}, Controls)
