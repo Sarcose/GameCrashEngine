@@ -1,0 +1,5 @@
+--various huds:
+--dialogue wheel
+--shortcut wheel
+--secret of mana wheel menu
+--wheels based on character position and/or item position

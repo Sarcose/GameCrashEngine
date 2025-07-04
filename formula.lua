@@ -11,11 +11,12 @@ _c_todo{"06/27/2025","Break jsfproto.controller.controls out into an external mo
 --[[========Game==Design==Formula=========]]--essential game is designed here.
 _G.jsfprimitiveproto = require 'test.jsf_primitiveproto'  --first mesh prototype for jsf
 _G.retro_jsf = require 'test.retro_jsf' --regressive JSF concept meant to rebuild the original to reach basic design goals.
+_G.luis_test = require 'test.luis_test'
 
 local f = {}
 
 
-local formula = retro_jsf   --set the formula we are testing, here.
+local formula = luis_test   --set the formula we are testing, here.
 
 function f:load()
     love.graphics.setBlendMode("alpha")

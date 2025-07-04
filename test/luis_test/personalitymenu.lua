@@ -1,0 +1,3 @@
+--menu items have character and behaviors alongside their intended functionality
+--mock up menu entities that have functions and then,
+--attach behaviors to them on top of those functions

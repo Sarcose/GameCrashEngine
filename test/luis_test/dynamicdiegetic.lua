@@ -1,0 +1,3 @@
+--example from Dead Space: healthbar on character's spine, etc.
+--all HUD examples in-world.
+--So: mock up a changing world and use HUD elements that attach to the world's entities
